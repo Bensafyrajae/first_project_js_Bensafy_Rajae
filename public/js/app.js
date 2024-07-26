@@ -1,9 +1,9 @@
 let dataBase = [
-    { name: 'basma jamal', email: 'basma@email.com', age: 23, password: '1234567@', balance: 1000, history: [], credit: 0 }
+    { name: 'Basma Jamal', email: 'basma@email.com', age: 23, password: '1234567@', balance: 1000, history: [], credit: 0 }
 ];
 
 class User {
-    constructor(name, email, age, password, balance, history , credit) {
+    constructor(name, email, age, password, balance = 0, history = [], credit = 0) {
         this.name = name;
         this.email = email;
         this.age = age;
@@ -49,6 +49,8 @@ const signup = () => {
         while (password.length < 7 || !/[#@\-+*/]/.test(password) || /\s/.test(password) || password !== passwordConfirmed) {
             if (password !== passwordConfirmed) {
                 alert("Les mots de passe ne correspondent pas.");
+            } else {
+                alert("Mot de passe invalide. Il doit contenir au moins 7 caractères et un caractère spécial.");
             }
             password = prompt("Entrez un mot de passe valide (au moins 7 caractères, avec au moins un caractère spécial) :");
             passwordConfirmed = prompt("Confirmez votre mot de passe:");
@@ -81,9 +83,9 @@ const login = () => {
         return;
     }
 
-    alert(`Bienvenue, ${user.name}. Votre solde actuel est de ${user.balance} dirhams.`);
+    alert(`Bienvenue, ${user.name}. Votre solde actuel est de ${user.balance.toFixed(2)} dirhams.`);
     console.log(`Utilisateur connecté: ${user.name}`);
-    console.log(`Solde actuel: ${user.balance} dirhams`);
+    console.log(`Solde actuel: ${user.balance.toFixed(2)} dirhams`);
     userMenu(user);
 };
 
@@ -112,11 +114,16 @@ const userMenu = (user) => {
 
 const retrait = (user) => {
     let montant = parseFloat(prompt("Entrez le montant à retirer:"));
+    if (isNaN(montant) || montant <= 0) {
+        alert("Veuillez entrer un montant valide supérieur à 0.");
+        return;
+    }
+
     if (montant <= user.balance) {
         user.balance -= montant;
-        user.history.push(`Retrait de ${montant} dirhams.`);
-        alert(`Vous avez retiré ${montant} dirhams. Nouveau solde: ${user.balance} dirhams.`);
-        console.log(`Retrait de ${montant} dirhams. Nouveau solde: ${user.balance} dirhams.`);
+        user.history.push(`Retrait de ${montant.toFixed(2)} dirhams.`);
+        alert(`Vous avez retiré ${montant.toFixed(2)} dirhams. Nouveau solde: ${user.balance.toFixed(2)} dirhams.`);
+        console.log(`Retrait de ${montant.toFixed(2)} dirhams. Nouveau solde: ${user.balance.toFixed(2)} dirhams.`);
     } else {
         alert("Fonds insuffisants.");
     }
@@ -124,13 +131,19 @@ const retrait = (user) => {
 
 const depot = (user) => {
     let montant = parseFloat(prompt("Entrez le montant à déposer (max 1000 dirhams):"));
+
+    if (isNaN(montant) || montant <= 0) {
+        alert("Veuillez entrer un montant valide supérieur à 0.");
+        return;
+    }
+
     if (montant <= 1000) {
         user.balance += montant;
-        user.history.push(`Dépôt de ${montant} dirhams.`);
-        alert(`Vous avez déposé ${montant} dirhams. Nouveau solde: ${user.balance} dirhams.`);
-        console.log(`Dépôt de ${montant} dirhams. Nouveau solde: ${user.balance} dirhams.`);
+        user.history.push(`Dépôt de ${montant.toFixed(2)} dirhams.`);
+        alert(`Vous avez déposé ${montant.toFixed(2)} dirhams. Nouveau solde: ${user.balance.toFixed(2)} dirhams.`);
+        console.log(`Dépôt de ${montant.toFixed(2)} dirhams. Nouveau solde: ${user.balance.toFixed(2)} dirhams.`);
     } else {
-        alert("Montant dépassant la limite autorisée.");
+        alert("Montant dépassant la limite autorisée de 1000 dirhams.");
     }
 };
 
@@ -138,17 +151,23 @@ const credit = (user) => {
     let creditAmount = user.balance * 0.2;
     user.balance += creditAmount;
     user.credit = creditAmount;
-    user.history.push(`Crédit de ${creditAmount} dirhams.`);
-    alert(`Vous avez pris un crédit de ${creditAmount} dirhams. Nouveau solde: ${user.balance} dirhams.`);
-    console.log(`Crédit de ${creditAmount} dirhams. Nouveau solde: ${user.balance} dirhams.`);
+    user.history.push(`Crédit de ${creditAmount.toFixed(2)} dirhams.`);
+    alert(`Vous avez pris un crédit de ${creditAmount.toFixed(2)} dirhams. Nouveau solde: ${user.balance.toFixed(2)} dirhams.`);
+    console.log(`Crédit de ${creditAmount.toFixed(2)} dirhams. Nouveau solde: ${user.balance.toFixed(2)} dirhams.`);
 };
 
 const investir = (user) => {
     let montant = parseFloat(prompt("Entrez le montant à investir:"));
+
+    if (isNaN(montant) || montant <= 0) {
+        alert("Veuillez entrer un montant valide supérieur à 0.");
+        return;
+    }
+
     user.balance += montant * 0.2;
-    user.history.push(`Investissement de ${montant} dirhams.`);
-    alert(`Vous avez investi ${montant} dirhams. Nouveau solde: ${user.balance} dirhams.`);
-    console.log(`Investissement de ${montant} dirhams. Nouveau solde: ${user.balance} dirhams.`);
+    user.history.push(`Investissement de ${montant.toFixed(2)} dirhams.`);
+    alert(`Vous avez investi ${montant.toFixed(2)} dirhams. Nouveau solde: ${user.balance.toFixed(2)} dirhams.`);
+    console.log(`Investissement de ${montant.toFixed(2)} dirhams. Nouveau solde: ${user.balance.toFixed(2)} dirhams.`);
 };
 
 const historique = (user) => {
@@ -170,11 +189,12 @@ const changePassword = () => {
 
     let newPassword = prompt("Entrez votre nouveau mot de passe:");
     let passwordConfirmed = prompt("Confirmez votre nouveau mot de passe:");
+
     while (newPassword.length < 7 || !/[#@\-+*/]/.test(newPassword) || /\s/.test(newPassword) || newPassword !== passwordConfirmed) {
         if (newPassword !== passwordConfirmed) {
             alert("Les mots de passe ne correspondent pas.");
         } else {
-            alert("Mot de passe invalide.");
+            alert("Mot de passe invalide. Il doit contenir au moins 7 caractères et un caractère spécial.");
         }
         newPassword = prompt("Entrez votre nouveau mot de passe:");
         passwordConfirmed = prompt("Confirmez votre nouveau mot de passe:");
