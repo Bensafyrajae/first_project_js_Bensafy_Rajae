@@ -137,7 +137,7 @@ const depot = (user) => {
         return;
     }
 
-    if (montant <= 1000) {
+    if (montant <= 1000 ) {
         user.balance += montant;
         user.history.push(`Dépôt de ${montant.toFixed(2)} dirhams.`);
         alert(`Vous avez déposé ${montant.toFixed(2)} dirhams. Nouveau solde: ${user.balance.toFixed(2)} dirhams.`);
