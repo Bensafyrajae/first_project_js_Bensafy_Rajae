@@ -48,7 +48,7 @@ const signup = () => {
     const verificationPassword = () => {
         while (password.length < 7 || !/[#@\-+*/]/.test(password) || /\s/.test(password) || password !== passwordConfirmed) {
             if (password !== passwordConfirmed) {
-                alert("Les mots de passe ne correspondent pas.");
+                alert("Les mots de passe ne correspondent pas. ");
             } else {
                 alert("Mot de passe invalide. Il doit contenir au moins 7 caractères et un caractère spécial.");
             }
