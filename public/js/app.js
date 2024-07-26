@@ -3,7 +3,7 @@ let dataBase = [
 ];
 
 class User {
-    constructor(name, email, age, password, balance , history , credit) {
+    constructor(name, email, age, password, balance = 0, history = [], credit = 0) {
         this.name = name;
         this.email = email;
         this.age = age;
@@ -43,10 +43,15 @@ const signup = () => {
     };
 
     let password = prompt("Entrez votre mot de passe s'il vous plaît");
+    let passwordConfirmed = prompt("Confirmez votre mot de passe:");
 
     const verificationPassword = () => {
-        while (password.length < 7 || !/[#@\-+*/]/.test(password) || /\s/.test(password)) {
+        while (password.length < 7 || !/[#@\-+*/]/.test(password) || /\s/.test(password) || password !== passwordConfirmed) {
+            if (password !== passwordConfirmed) {
+                alert("Les mots de passe ne correspondent pas.");
+            }
             password = prompt("Entrez un mot de passe valide (au moins 7 caractères, avec au moins un caractère spécial) :");
+            passwordConfirmed = prompt("Confirmez votre mot de passe:");
         }
         return password;
     };
@@ -166,7 +171,11 @@ const changePassword = () => {
     let newPassword = prompt("Entrez votre nouveau mot de passe:");
     let passwordConfirmed = prompt("Confirmez votre nouveau mot de passe:");
     while (newPassword.length < 7 || !/[#@\-+*/]/.test(newPassword) || /\s/.test(newPassword) || newPassword !== passwordConfirmed) {
-        alert("Mot de passe invalide ou non confirmé.");
+        if (newPassword !== passwordConfirmed) {
+            alert("Les mots de passe ne correspondent pas.");
+        } else {
+            alert("Mot de passe invalide.");
+        }
         newPassword = prompt("Entrez votre nouveau mot de passe:");
         passwordConfirmed = prompt("Confirmez votre nouveau mot de passe:");
     }
@@ -176,20 +185,17 @@ const changePassword = () => {
     console.log(`Mot de passe changé pour l'utilisateur: ${user.email}`);
 };
 
-let  option = prompt("Choisissez une option: inscrire, connecter, changer mot de passe, exit").toLowerCase();
-while (option) {
-    option = prompt("Choisissez une option: inscrire, connecter, changer mot de passe, exit").toLowerCase();
+let option = prompt("Choisissez une option: inscrire, connecter, changer mot de passe, exit").toLowerCase();
+while (option !== 'exit') {
     if (option === 'inscrire') {
         signup();
     } else if (option === 'connecter') {
         login();
     } else if (option === 'changer mot de passe') {
         changePassword();
-    } else if (option === 'exit') {
-        alert("Au revoir!");
-        break;
     } else {
         alert("Option inconnue. Veuillez réessayer.");
     }
+    option = prompt("Choisissez une option: inscrire, connecter, changer mot de passe, exit").toLowerCase();
 }
-
+alert("Au revoir!");
