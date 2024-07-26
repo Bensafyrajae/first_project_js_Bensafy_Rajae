@@ -3,7 +3,7 @@ let dataBase = [
 ];
 
 class User {
-    constructor(name, email, age, password, balance = 0, history = [], credit = 0) {
+    constructor(name, email, age, password, balance , history , credit) {
         this.name = name;
         this.email = email;
         this.age = age;
