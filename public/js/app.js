@@ -86,10 +86,10 @@ const login = () => {
     alert(`Bienvenue, ${user.name}. Votre solde actuel est de ${user.balance.toFixed(2)} dirhams.`);
     console.log(`Utilisateur connecté: ${user.name}`);
     console.log(`Solde actuel: ${user.balance.toFixed(2)} dirhams`);
-    userMenu(user);
+    userme(user);
 };
 
-const userMenu = (user) => {
+const userme = (user) => {
     while (true) {
         let menu = prompt("Choisissez une action: deconnexion, retrait, depot, credit, investir, historique").toLowerCase();
         if (menu === 'deconnexion') {
